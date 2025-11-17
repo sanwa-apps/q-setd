@@ -98,12 +98,13 @@
                 <div id="url-card" class="bg-white p-4 rounded-xl shadow-sm border mb-6 transition-all duration-300">
                     <label class="text-sm font-semibold text-slate-500">チャットボットURL</label>
                     <div class="flex items-center mt-2">
-                        <input id="chatbot-url" type="text" readonly value="https://tsuji-smf.github.io/q-setd/chatbot/" class="flex-grow bg-slate-100 p-2 border border-slate-200 rounded-l-lg text-slate-700 text-sm">
+                        <input id="chatbot-url" type="text" readonly value="https://your-company.mimiru.ai/chat/1a2b3c4d" class="flex-grow bg-slate-100 p-2 border border-slate-200 rounded-l-lg text-slate-700 text-sm">
                         <button onclick="copyUrlToClipboard()" id="copy-btn" class="main-theme-bg main-theme-bg-hover text-white font-bold py-2 px-4 rounded-r-lg text-sm transition-colors">コピー</button>
                     </div>
                 </div>
                 
                 <h2 class="text-2xl font-bold text-slate-900 mb-4">ダッシュボード</h2>
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
                     <div class="bg-white p-4 rounded-xl shadow border">
                         <h3 class="font-semibold text-slate-500 text-sm">今月の総質問数</h3>
@@ -126,6 +127,48 @@
                         <p class="text-xs text-red-500 mt-1">-1.2% (前月比)</p>
                     </div>
                 </div>
+
+                <div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl shadow border">
+                        <h3 class="text-lg font-bold mb-4">性別ごとの分析</h3>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="text-sm font-semibold text-slate-600 text-center mb-2">質問数の内訳</h4>
+                                <div class="chart-container" style="height: 150px; max-height: 150px;">
+                                    <canvas id="genderChart"></canvas>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-semibold text-slate-600 mb-2">注目トピック</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li><strong class="text-blue-600">男性:</strong> 給与・待遇</li>
+                                    <li><strong class="text-pink-600">女性:</strong> 福利厚生・社風</li>
+                                    <li><strong class="text-slate-500">その他:</strong> 業務内容</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow border">
+                        <h3 class="text-lg font-bold mb-4">年齢ごとの分析</h3>
+                         <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <h4 class="text-sm font-semibold text-slate-600 text-center mb-2">質問数の内訳</h4>
+                                <div class="chart-container" style="height: 150px; max-height: 150px;">
+                                    <canvas id="ageChart"></canvas>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-semibold text-slate-600 mb-2">注目トピック</h4>
+                                <ul class="space-y-2 text-sm">
+                                    <li><strong>18-24歳:</strong> 研修制度・社風</li>
+                                    <li><strong>25-30歳:</strong> キャリアパス・給与</li>
+                                </ul>
+                                <button class="text-sm text-teal-600 hover:underline mt-4">全年代の詳細を見る</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="mt-6 grid grid-cols-1 xl:grid-cols-3 gap-6">
                     <div class="xl:col-span-2 bg-white p-6 rounded-xl shadow border">
                         <h3 class="text-lg font-bold mb-4">過去30日間の質問数推移</h3>
@@ -329,6 +372,8 @@
                                     <th class="p-3">日時</th>
                                     <th class="p-3">質問内容</th>
                                     <th class="p-3">トピック</th>
+                                    <th class="p-3">性別</th>
+                                    <th class="p-3">年代</th>
                                 </tr>
                             </thead>
                             <tbody id="data-table-body">
@@ -336,26 +381,36 @@
                                     <td class="p-3 text-sm text-slate-500">2025/07/06 10:32</td>
                                     <td class="p-3">住宅手当はありますか？</td>
                                     <td class="p-3"><span class="bg-violet-100 text-violet-700 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">福利厚生</span></td>
+                                    <td class="p-3"><span class="bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">男性</span></td>
+                                    <td class="p-3 text-sm text-slate-600">25-30歳</td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="p-3 text-sm text-slate-500">2025/07/06 09:15</td>
                                     <td class="p-3">エンジニアの初任給はいくらですか？</td>
                                     <td class="p-3"><span class="bg-blue-100 text-blue-700 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">給与・待遇</span></td>
+                                    <td class="p-3"><span class="bg-pink-100 text-pink-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">女性</span></td>
+                                    <td class="p-3 text-sm text-slate-600">18-24歳</td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="p-3 text-sm text-slate-500">2025/07/05 18:45</td>
                                     <td class="p-3">リモートワークは可能ですか？</td>
                                     <td class="p-3"><span class="bg-violet-100 text-violet-700 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">福利厚生</span></td>
+                                    <td class="p-3"><span class="bg-blue-100 text-blue-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">男性</span></td>
+                                    <td class="p-3 text-sm text-slate-600">31-35歳</td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="p-3 text-sm text-slate-500">2025/07/05 14:20</td>
                                     <td class="p-3">開発チームの雰囲気を教えてください。</td>
                                     <td class="p-3"><span class="bg-pink-100 text-pink-700 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">社風・文化</span></td>
+                                    <td class="p-3"><span class="bg-pink-100 text-pink-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">女性</span></td>
+                                    <td class="p-3 text-sm text-slate-600">25-30歳</td>
                                 </tr>
                                 <tr class="border-b">
                                     <td class="p-3 text-sm text-slate-500">2025/07/04 11:55</td>
                                     <td class="p-3">どのような技術スタックを使っていますか？</td>
                                     <td class="p-3"><span class="bg-green-100 text-green-700 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded-full">業務内容</span></td>
+                                    <td class="p-3"><span class="bg-slate-100 text-slate-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">未回答</span></td>
+                                    <td class="p-3 text-sm text-slate-600">18-24歳</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -376,23 +431,45 @@
                         <button class="bg-white p-2 border border-slate-300 rounded-lg hover:bg-slate-50">期間指定</button>
                     </div>
                 </div>
-                <div class="space-y-8">
-                    <div class="bg-white p-6 rounded-xl shadow border">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 bg-white p-6 rounded-xl shadow border">
                         <h3 class="text-xl font-bold mb-4">質問トピックの内訳</h3>
                         <div class="chart-container" style="height: 300px; max-height: 300px;">
                             <canvas id="topicChart"></canvas>
                         </div>
                     </div>
-                    <div class="bg-white p-6 rounded-xl shadow border">
+                    <div class="lg:col-span-1 space-y-6">
+                        <div class="bg-white p-6 rounded-xl shadow border">
+                            <h3 class="text-lg font-bold mb-4">性別ごとの注目トピック</h3>
+                            <div class="chart-container" style="height: 150px; max-height: 150px;">
+                                <canvas id="analysisGenderChart"></canvas>
+                            </div>
+                            <ul class="space-y-2 text-sm mt-4">
+                                <li><strong class="text-blue-600">男性:</strong> 給与・待遇</li>
+                                <li><strong class="text-pink-600">女性:</strong> 福利厚生・社風</li>
+                            </ul>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl shadow border">
+                            <h3 class="text-lg font-bold mb-4">年代ごとの注目トピック</h3>
+                            <div class="chart-container" style="height: 150px; max-height: 150px;">
+                                <canvas id="analysisAgeChart"></canvas>
+                            </div>
+                            <ul class="space-y-2 text-sm mt-4">
+                                <li><strong>18-24歳:</strong> 研修制度・社風</li>
+                                <li><strong>25-30歳:</strong> キャリアパス・給与</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-3 bg-white p-6 rounded-xl shadow border">
                         <h3 class="text-xl font-bold mb-4">AIによる改善提案</h3>
                         <div class="space-y-4">
                             <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
                                 <p class="font-bold text-teal-800">提案①：採用FAQページの拡充</p>
-                                <p class="text-sm text-slate-600 mt-1">「福利厚生」と「給与」に関する質問が全体の50%以上を占めています。これらの情報をまとめたFAQページを作成し、採用サイトからリンクを設置しましょう。</p>
+                                <p class="text-sm text-slate-600 mt-1">「福利厚生」と「給与」に関する質問が全体の50%以上を占めています。特に女性は「福利厚生」、男性は「給与」への関心が高いようです。これらの情報をまとめたFAQページを作成し、採用サイトからリンクを設置しましょう。</p>
                             </div>
                             <div class="bg-teal-50 p-4 rounded-lg border border-teal-200">
-                                <p class="font-bold text-teal-800">提案②：選考プロセス案内の見直し</p>
-                                <p class="text-sm text-slate-600 mt-1">「選考プロセス」に関する質問が増加傾向にあります。面接回数や所要時間、オンライン面接の可否などを明記することで、候補者の不安を解消できます。</p>
+                                <p class="font-bold text-teal-800">提案②：若手向けキャリアパスの明示</p>
+                                <p class="text-sm text-slate-600 mt-1">25-30歳の層から「キャリアパス」に関する質問が目立ちます。若手社員がどのように成長できるか、具体的なモデルケースや研修制度を採用サイトで紹介することを推奨します。</p>
                             </div>
                         </div>
                     </div>
@@ -471,6 +548,10 @@
         const chatSendButton = document.getElementById('chat-send');
         let topicChartInstance = null;
         let dashboardChartInstance = null;
+        let genderChartInstance = null;
+        let ageChartInstance = null;
+        let analysisGenderChartInstance = null;
+        let analysisAgeChartInstance = null;
         const meetingUrlToggle = document.getElementById('meeting-url-toggle');
         const meetingUrlContainer = document.getElementById('meeting-url-container');
         
@@ -494,8 +575,12 @@
 
             if (viewId === 'analysis') {
                 renderTopicChart();
+                renderAnalysisGenderChart();
+                renderAnalysisAgeChart();
             } else if (viewId === 'dashboard') {
                 renderDashboardChart();
+                renderGenderChart();
+                renderAgeChart();
             }
         }
 
@@ -569,6 +654,126 @@
                     scales: {
                         y: { beginAtZero: true, grid: { color: '#e2e8f0' }, ticks: { color: '#64748b' } },
                         x: { grid: { display: false }, ticks: { color: '#64748b', maxRotation: 0, autoSkip: true, maxTicksLimit: 10 } }
+                    }
+                }
+            });
+        }
+        
+        function renderGenderChart() {
+            if (genderChartInstance) genderChartInstance.destroy();
+            const ctx = document.getElementById('genderChart').getContext('2d');
+            genderChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['男性', '女性', 'その他/未回答'],
+                    datasets: [{
+                        data: [45, 40, 15],
+                        backgroundColor: ['#3b82f6', '#ec4899', '#6b7280'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                let sum = 0;
+                                let dataArr = ctx.chart.data.datasets[0].data;
+                                dataArr.map(data => sum += data);
+                                return (value*100 / sum).toFixed(0) + "%";
+                            },
+                            color: '#fff',
+                            font: { weight: 'bold' }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderAgeChart() {
+            if (ageChartInstance) ageChartInstance.destroy();
+            const ctx = document.getElementById('ageChart').getContext('2d');
+            ageChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['18-24歳', '25-30歳', '31-35歳'],
+                    datasets: [{
+                        label: '質問数',
+                        data: [78, 52, 31],
+                        backgroundColor: 'rgba(1, 161, 127, 0.5)',
+                        borderColor: '#01a17f',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { display: false }, grid: { display: false } },
+                        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
+                    }
+                }
+            });
+        }
+        
+        function renderAnalysisGenderChart() {
+            if (analysisGenderChartInstance) analysisGenderChartInstance.destroy();
+            const ctx = document.getElementById('analysisGenderChart').getContext('2d');
+            analysisGenderChartInstance = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['男性', '女性', 'その他/未回答'],
+                    datasets: [{
+                        data: [450, 400, 150],
+                        backgroundColor: ['#3b82f6', '#ec4899', '#6b7280'],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            formatter: (value, ctx) => {
+                                let sum = 0;
+                                let dataArr = ctx.chart.data.datasets[0].data;
+                                dataArr.map(data => sum += data);
+                                return (value*100 / sum).toFixed(0) + "%";
+                            },
+                            color: '#fff',
+                            font: { weight: 'bold', size: 10 }
+                        }
+                    }
+                }
+            });
+        }
+        
+        function renderAnalysisAgeChart() {
+            if (analysisAgeChartInstance) analysisAgeChartInstance.destroy();
+            const ctx = document.getElementById('analysisAgeChart').getContext('2d');
+            analysisAgeChartInstance = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: ['18-24歳', '25-30歳', '31-35歳', '36-40歳'],
+                    datasets: [{
+                        label: '質問数',
+                        data: [780, 520, 310, 150],
+                        backgroundColor: 'rgba(1, 161, 127, 0.5)',
+                        borderColor: '#01a17f',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { display: false }, grid: { display: false } },
+                        x: { ticks: { font: { size: 10 } }, grid: { display: false } }
                     }
                 }
             });
